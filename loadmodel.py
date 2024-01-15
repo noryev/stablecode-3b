@@ -1,4 +1,4 @@
-rom transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer
 tokenizer = AutoTokenizer.from_pretrained("stabilityai/stablecode-instruct-alpha-3b")
 model = AutoModelForCausalLM.from_pretrained(
   "stabilityai/stablecode-instruct-alpha-3b",
