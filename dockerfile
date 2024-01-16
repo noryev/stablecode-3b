@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y git
 
 # Install any needed packages specified in requirements.txt
+# Ensure that requirements.txt is present in the same directory as the Dockerfile
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -15,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /usr/src/app
 
 # Copy your local model directory into the container
-# Replace `path_to_your_model_directory` with the actual path to your local model directory
-COPY path_to_your_model_directory /usr/src/app/stablecode
+# Make sure the stablecode directory is in the same directory as your Dockerfile
+COPY stablecode /usr/src/app/model
 
 # Modify your Python script to load the model from the copied directory
 # Ensure loadmodel.py uses the path '/usr/src/app/model' for loading the model
