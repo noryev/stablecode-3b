@@ -14,10 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the current directory contents into the container at /usr/src/app
 COPY . /usr/src/app
 
-# Download the model using the huggingface_hub library
-RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('stabilityai/stablecode-instruct-alpha-3b', cache_dir='/usr/src/app/model')"
+# Copy your local model directory into the container
+# Replace `path_to_your_model_directory` with the actual path to your local model directory
+COPY path_to_your_model_directory /usr/src/app/stablecode
 
-# Modify your Python script to load the model from the baked-in directory
+# Modify your Python script to load the model from the copied directory
 # Ensure loadmodel.py uses the path '/usr/src/app/model' for loading the model
 
 # Use ENTRYPOINT to specify the script to be run, allowing for additional command-line arguments
