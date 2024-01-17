@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import argparse
+import os
 
 # Load the tokenizer and model for stablecode
 tokenizer = AutoTokenizer.from_pretrained("stabilityai/stablecode-instruct-alpha-3b", trust_remote_code=True)
