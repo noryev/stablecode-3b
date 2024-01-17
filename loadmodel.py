@@ -1,7 +1,9 @@
+import os
 import torch
+
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import argparse
-import os
+
 
 # Fetch the Hugging Face token from the environment
 hf_token = os.getenv("HF_TOKEN")
