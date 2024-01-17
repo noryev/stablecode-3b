@@ -17,7 +17,11 @@ def generate(prompt: str, generation_params: dict = {"max_length": 200}) -> str:
     try:
         torch.cuda.empty_cache()  # Clear CUDA cache
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+
+        # Make sure that the generation parameters are compatible with the model
+        # Remove or modify any unsupported parameters like 'token_type_ids'
         tokens = model.generate(**inputs, **generation_params)
+
         completion = tokenizer.decode(tokens[0], skip_special_tokens=True)
         return completion
     except Exception as e:
