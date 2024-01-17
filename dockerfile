@@ -4,7 +4,7 @@ FROM python:3.8
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Install git, necessary for some huggingface models
+# Install git, necessary for some Hugging Face models
 RUN apt-get update && apt-get install -y git
 
 # Install any needed packages specified in requirements.txt
@@ -19,8 +19,8 @@ COPY . /usr/src/app
 # Make sure the stablecode directory is in the same directory as your Dockerfile
 COPY stablecode /usr/src/app/model
 
-# Modify your Python script to load the model from the copied directory
-# Ensure loadmodel.py uses the path '/usr/src/app/model' for loading the model
+# Set the model directory environment variable
+ENV MODEL_DIR=/usr/src/app/model
 
 # Use ENTRYPOINT to specify the script to be run, allowing for additional command-line arguments
 ENTRYPOINT ["python", "/usr/src/app/loadmodel.py"]

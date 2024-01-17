@@ -1,29 +1,15 @@
 import os
 import torch
-
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import argparse
 
+# Define the directory where the model is stored
+# This should match the directory set in the Dockerfile
+model_dir = os.getenv("MODEL_DIR", "/path/to/model/directory")
 
-# Fetch the Hugging Face token from the environment
-hf_token = os.getenv("HF_TOKEN")
-
-# Load the tokenizer and model for stablecode with the token
-
-# Look to see how others do this- Are they pulling the model from Huggingface like this or are they doing it another way. 
-# If anything replicate what is already being done.
-
-tokenizer = AutoTokenizer.from_pretrained(
-    "stabilityai/stablecode-instruct-alpha-3b", 
-    trust_remote_code=True, 
-    use_auth_token=hf_token  # Use the token for authentication
-)
-model = AutoModelForCausalLM.from_pretrained(
-    "stabilityai/stablecode-instruct-alpha-3b",
-    trust_remote_code=True,
-    torch_dtype="auto",  # Let the model manage tensor types automatically
-    use_auth_token=hf_token  # Use the token for authentication
-)
+# Load the tokenizer and model from the local directory
+tokenizer = AutoTokenizer.from_pretrained(model_dir)
+model = AutoModelForCausalLM.from_pretrained(model_dir)
 model.cuda()  # Move model to GPU if CUDA is available
 
 # Text generation function
