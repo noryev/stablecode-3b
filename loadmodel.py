@@ -4,7 +4,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import argparse
 
 # Define the directory where the model is stored
-# This should match the directory set in the Dockerfile
 model_dir = os.getenv("MODEL_DIR", "/path/to/model/directory")
 
 # Load the tokenizer and model from the local directory
@@ -18,9 +17,10 @@ def generate(prompt: str, generation_params: dict = {"max_length": 200}) -> str:
         torch.cuda.empty_cache()  # Clear CUDA cache
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
 
-        # Make sure that the generation parameters are compatible with the model
-        # Remove or modify any unsupported parameters like 'token_type_ids'
-        tokens = model.generate(**inputs, **generation_params)
+        # Filter out unsupported generation parameters
+        supported_params = {key: val for key, val in generation_params.items() if key in model.config.to_diff_dict()}
+
+        tokens = model.generate(**inputs, **supported_params)
 
         completion = tokenizer.decode(tokens[0], skip_special_tokens=True)
         return completion
